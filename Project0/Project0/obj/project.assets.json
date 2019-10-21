@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kyler\\source\\repos\\Project0\\Project0\\Project0.csproj",
+      "projectUniqueName": "C:\\RevatureCode\\MyGit\\Project0\\Project0\\Project0.csproj",
       "projectName": "Project0",
-      "projectPath": "C:\\Users\\kyler\\source\\repos\\Project0\\Project0\\Project0.csproj",
+      "projectPath": "C:\\RevatureCode\\MyGit\\Project0\\Project0\\Project0.csproj",
       "packagesPath": "C:\\Users\\kyler\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kyler\\source\\repos\\Project0\\Project0\\obj\\",
+      "outputPath": "C:\\RevatureCode\\MyGit\\Project0\\Project0\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kyler\\AppData\\Roaming\\NuGet\\NuGet.Config",
