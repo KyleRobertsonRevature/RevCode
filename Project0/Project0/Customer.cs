@@ -11,7 +11,7 @@ namespace Project0
         public string Address { get; set; }
         public int SSN { get; set; }
 
-        Dictionary<int, I_Account> Accounts = new Dictionary<int, I_Account>();
+        readonly Dictionary<int, Account> Accounts = new Dictionary<int, Account>();
 
         public Customer(string name, string email, string address, int ssn)
         {
@@ -20,6 +20,29 @@ namespace Project0
             Address = address;
             SSN = ssn;
         }
-
+        public void OpenAccount(int accNum, AccType accType, double initialBalance)
+        {
+            //TODO
+        }
+        public void CloseAccount(int accNum)
+        {
+            //TODO
+        }
+        public void Withdraw(int accNum)
+        {
+            //TODO
+        }
+        public void Deposit(int accNum)
+        {
+            //TODO
+        }
+        public void Transfer(int fromAcc, int toAcc)
+        {
+            //TODO
+        }
+        public void PayLoanInstallment(int accNum, double amount)
+        {
+            //TODO
+        }
     }
 }
