@@ -34,9 +34,21 @@ namespace Project0
         /// <summary>
         /// List of strings reepresenting account transactions in a user-friendly format. Members should not end with newline characters.
         /// </summary>
-        readonly List<string> Transactions = new List<string>();
+        public List<string> Transactions = new List<string>();
 
         // METHODS ************************************************************
+        /// <summary>
+        /// When implemented, applies interest based on the account type.
+        /// </summary>
+        public abstract void ApplyInterest();
+
+        /// <summary>
+        /// When implemented, should deposit the desired amount into the account, if allowed.
+        /// </summary>
+        /// <param name="amount">The amount of money to be deposited.</param>
+        /// <returns>A boolean representation of whether the transaction was completed.</returns>
+        public abstract bool Deposit(double amount);
+
         /// <summary>
         /// When implemented, should display the details of the account in a
         /// user-friendly format ending with a new line.
@@ -54,13 +66,6 @@ namespace Project0
                 Console.WriteLine(transaction);
             }
         }
-
-        /// <summary>
-        /// When implemented, should deposit the desired amount into the account, if allowed.
-        /// </summary>
-        /// <param name="amount">The amount of money to be deposited.</param>
-        /// <returns>A boolean representation of whether the transaction was completed.</returns>
-        public abstract bool Deposit(double amount);
 
         /// <summary>
         /// When implemented, should withdraw the desired amount from the account, if allowed.
