@@ -25,6 +25,11 @@ namespace Project0
         public override void ApplyInterest()
         {
             Balance *= InterestRate;
+            if (Balance > 0d)
+            {
+                double earned = Balance * (InterestRate / 100);
+                Transactions.Add($"Interest earned: ${earned}\nBalance = ${Balance}");
+            }
         }
 
         /// <summary>
