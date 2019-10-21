@@ -7,6 +7,7 @@ namespace Project0
         static void Main(string[] args)
         {
             //TODO Test code goes here
+            Console.WriteLine("Hello world!");
         }
     }
 }

@@ -38,12 +38,14 @@ namespace Project0
 
         // METHODS ************************************************************
         /// <summary>
-        /// 
+        /// When implemented, should display the details of the account in a
+        /// user-friendly format ending with a new line.
         /// </summary>
         public abstract void DisplayDetails();
 
         /// <summary>
-        /// 
+        /// Displays all transactions for an account in a user-friendly way,
+        /// ending with a new line.
         /// </summary>
         public void DisplayTransactions()
         {
@@ -54,17 +56,17 @@ namespace Project0
         }
 
         /// <summary>
-        /// 
+        /// When implemented, should deposit the desired amount into the account, if allowed.
         /// </summary>
-        /// <param name="amount"></param>
-        /// <returns></returns>
+        /// <param name="amount">The amount of money to be deposited.</param>
+        /// <returns>A boolean representation of whether the transaction was completed.</returns>
         public abstract bool Deposit(double amount);
 
         /// <summary>
-        /// 
+        /// When implemented, should withdraw the desired amount from the account, if allowed.
         /// </summary>
-        /// <param name="amount"></param>
-        /// <returns></returns>
+        /// <param name="amount">The amount of money to be withdrawn.</param>
+        /// <returns>A boolean representation of whether the transaction was completed.</returns>
         public abstract bool Withdraw(double amount);
     }
 }
