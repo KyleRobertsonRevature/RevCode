@@ -28,15 +28,15 @@ namespace Project0
         {
             //TODO
         }
-        public void Withdraw(int accNum)
+        public void Withdraw(int accNum, double amount)
         {
             //TODO
         }
-        public void Deposit(int accNum)
+        public void Deposit(int accNum, double amount)
         {
             //TODO
         }
-        public void Transfer(int fromAcc, int toAcc)
+        public void Transfer(int fromAcc, int toAcc, double amount)
         {
             //TODO
         }
