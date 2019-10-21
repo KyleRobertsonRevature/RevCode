@@ -20,5 +20,6 @@ namespace Project0
             Address = address;
             SSN = ssn;
         }
+
     }
 }
