@@ -32,7 +32,8 @@ namespace Project0
         public AccType AccountType { get; set; }
 
         /// <summary>
-        /// List of strings reepresenting account transactions in a user-friendly format. Members should not end with newline characters.
+        /// List of strings reepresenting account transactions in a user-friendly format.
+        /// Members should not end with newline characters.
         /// </summary>
         public List<string> Transactions = new List<string>();
 

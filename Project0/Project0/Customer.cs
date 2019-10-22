@@ -22,10 +22,12 @@ namespace Project0
         }
         public void OpenAccount(AccType accType, double initialBalance)
         {
+            // return accnum?
             //TODO
         }
         public void CloseAccount(int accNum)
         {
+            // can only close accounts w/ 0 balance
             //TODO
         }
         public void Withdraw(int accNum, double amount)
