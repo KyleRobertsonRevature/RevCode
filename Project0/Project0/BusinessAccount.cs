@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Project0
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class BusinessAccount : Account
     {
         // CONSTRUCTOR ********************************************************
@@ -14,6 +17,11 @@ namespace Project0
             InterestRate = rate;
             AccountType = AccType.Business;
         }
+
+        // METHODS ************************************************************
+        /// <summary>
+        /// 
+        /// </summary>
         public override void ApplyInterest()
         {
             throw new NotImplementedException();
