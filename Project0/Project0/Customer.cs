@@ -20,7 +20,7 @@ namespace Project0
             Address = address;
             SSN = ssn;
         }
-        public void OpenAccount(int accNum, AccType accType, double initialBalance)
+        public void OpenAccount(AccType accType, double initialBalance)
         {
             //TODO
         }
@@ -41,6 +41,14 @@ namespace Project0
             //TODO
         }
         public void PayLoanInstallment(int accNum, double amount)
+        {
+            //TODO
+        }
+        public void DisplayAccounts()
+        {
+            //TODO
+        }
+        public void DisplayTransactions(int accNum)
         {
             //TODO
         }

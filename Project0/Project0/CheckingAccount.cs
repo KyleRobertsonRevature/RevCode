@@ -24,10 +24,10 @@ namespace Project0
         /// </summary>
         public override void ApplyInterest()
         {
-            Balance *= InterestRate;
             if (Balance > 0d)
             {
-                double earned = Balance * (InterestRate / 100);
+                double earned = Balance * (InterestRate / 100d);
+                Balance *= (InterestRate / 100d);
                 Transactions.Add($"Interest earned: ${earned}\nBalance = ${Balance}");
             }
         }
@@ -47,7 +47,7 @@ namespace Project0
             }
             else
             {
-                Console.WriteLine("Error: Cannot deposit non-positive amount.");
+                Console.WriteLine("Error: Cannot deposit a non-positive amount.");
                 return false;
             }
         }
@@ -78,13 +78,13 @@ namespace Project0
                 }
                 else
                 {
-                    Console.WriteLine("Error: Not enough money in account.");
+                    Console.WriteLine("Error: Not enough money in account for this withdrawl.");
                     return false;
                 }
             }
             else
             {
-                Console.WriteLine("Error: Cannot Withdraw non-positive amount.");
+                Console.WriteLine("Error: Cannot withdraw non-positive amount.");
                 return false;
             }
         }
