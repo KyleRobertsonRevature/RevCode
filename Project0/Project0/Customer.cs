@@ -11,7 +11,7 @@ namespace Project0
         public string Address { get; set; }
         public int SSN { get; set; }
 
-        readonly Dictionary<int, Account> Accounts = new Dictionary<int, Account>();
+        List<int> AccountNums = new List<int>();
 
         public Customer(string name, string email, string address, int ssn)
         {
@@ -25,6 +25,7 @@ namespace Project0
             // return accnum?
             //TODO
         }
+
         public void CloseAccount(int accNum)
         {
             // can only close accounts w/ 0 balance
@@ -42,10 +43,7 @@ namespace Project0
         {
             //TODO
         }
-        public void PayLoanInstallment(int accNum, double amount)
-        {
-            //TODO
-        }
+
         public void DisplayAccounts()
         {
             //TODO
