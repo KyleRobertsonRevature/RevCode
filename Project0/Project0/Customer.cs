@@ -22,7 +22,7 @@ namespace Project0
         }
         public void OpenAccount(AccType accType, double initialBalance)
         {
-            // return accnum?
+            // bank method returns accnum, add to accountnums
             //TODO
         }
 

@@ -10,7 +10,8 @@ namespace Project0
     public static class Bank
     {
         // PROPERTIES *********************************************************
-        static Dictionary<int, Account> Accounts = new Dictionary<int, Account>();
+        private static readonly Dictionary<int, Account> Accounts = new Dictionary<int, Account>();
+        private static int CurrentAccNum = 0;
 
         // METHODS ************************************************************
         public static bool CanDeposit(int accNum)
