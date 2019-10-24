@@ -5,7 +5,7 @@ using System.Text;
 namespace Project0
 {
     /// <summary>
-    /// 
+    /// Account for a CD. Cannot be deposited into, can only be withdrawn from when mature.
     /// </summary>
     class CD : Account
     {
@@ -26,11 +26,24 @@ namespace Project0
         }
 
         // METHODS ************************************************************
+        /// <summary>
+        /// Applies interest to the CD's balance
+        /// </summary>
         public override void ApplyInterest()
         {
-            throw new NotImplementedException();
+            if (Balance > 0d)
+            {
+                double earned = Balance * (InterestRate / 100d);
+                Balance += earned;
+                Transactions.Add($"Interest earned: ${earned}\nBalance = ${Balance}");
+            }
         }
 
+        /// <summary>
+        /// Returns an arror message. CDs cannot be deposited into.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public override bool Deposit(double amount)
         {
             throw new NotImplementedException();

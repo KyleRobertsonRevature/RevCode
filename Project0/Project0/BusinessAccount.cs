@@ -27,7 +27,7 @@ namespace Project0
             if (Balance < 0d)
             {
                 double interest = Balance * (InterestRate / 100);
-                Balance *= (InterestRate / 100);
+                Balance -= interest;
                 Transactions.Add($"Interest charged: ${interest}\nBalance = ${Balance}");
             }
         }

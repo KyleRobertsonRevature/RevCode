@@ -27,7 +27,7 @@ namespace Project0
             if (Balance > 0d)
             {
                 double earned = Balance * (InterestRate / 100d);
-                Balance *= (InterestRate / 100d);
+                Balance += earned;
                 Transactions.Add($"Interest earned: ${earned}\nBalance = ${Balance}");
             }
         }
