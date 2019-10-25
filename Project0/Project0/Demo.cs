@@ -61,8 +61,16 @@ namespace Project0
 
         static void LogIn()
         {
-            // TODO Login page
-            Console.WriteLine("Login page here.");
+            string username = "";
+            while (username.Equals(""))
+            {
+                Console.WriteLine("\nPlease enter your username:");
+                username = Console.ReadLine();
+                if (Bank.UsernameAvailable(username)) Console.WriteLine("\nError: Username not found.");
+            }
+            Console.WriteLine($"\nPassword for user {username}:");
+            string password = Console.ReadLine();
+
         }
 
         static void MainDisplay()

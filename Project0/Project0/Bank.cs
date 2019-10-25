@@ -51,6 +51,29 @@ namespace Project0
             return CurrentAccNum++;
         }
 
+        public static bool LogIn(string username, string passwordAttempt)
+        {
+            if (Users.TryGetValue(username, out string password))
+            {
+                if (passwordAttempt.Equals(password)) return true;
+                else
+                {
+                    Console.WriteLine("Error: Incorrect password.");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error: No such username.");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the username is available.
+        /// </summary>
+        /// <param name="username">The username to be checked</param>
+        /// <returns>Whether the username is available as a bool</returns>
         public static bool UsernameAvailable(string username)
         {
             return !(Users.ContainsKey(username));
