@@ -19,12 +19,12 @@ namespace Project0
         /// <summary>
         /// Amount of money in the account.
         /// </summary>
-        public double Balance { get; set; }
+        protected double Balance { get; set; }
 
         /// <summary>
         /// Interest rate on the account.
         /// </summary>
-        public double InterestRate { get; set; }
+        protected double InterestRate { get; set; }
 
         /// <summary>
         /// Type of account.
@@ -35,7 +35,7 @@ namespace Project0
         /// List of strings reepresenting account transactions in a user-friendly format.
         /// Members should not end with newline characters.
         /// </summary>
-        public List<string> Transactions = new List<string>();
+        protected List<string> Transactions = new List<string>();
 
         // METHODS ************************************************************
         /// <summary>

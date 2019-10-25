@@ -70,7 +70,7 @@ namespace Project0
             double dif = Balance - amount;
             if (amount > 0)
             {
-                if (dif > 0)
+                if (dif >= 0)
                 {
                     Balance -= amount;
                     Transactions.Add($"Withdrawl: ${amount}\nBalance = ${Balance}");
