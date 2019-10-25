@@ -56,21 +56,24 @@ namespace Project0
                     LoggedIn();
                     break;
             }
-            
+
         }
 
         static void LogIn()
         {
-            string username = "";
-            while (username.Equals(""))
+            Console.WriteLine("\nPlease enter your username:");
+            string username = Console.ReadLine();
+            if (Bank.UsernameAvailable(username)) Console.WriteLine("\nError: Username not found.");
+            else
             {
-                Console.WriteLine("\nPlease enter your username:");
-                username = Console.ReadLine();
-                if (Bank.UsernameAvailable(username)) Console.WriteLine("\nError: Username not found.");
+                Console.WriteLine($"\nPassword for user {username}:");
+                string password = Console.ReadLine();
+                if (Bank.LogIn(username, password))
+                {
+                    CurrentUser = username;
+                    LoggedIn();
+                }
             }
-            Console.WriteLine($"\nPassword for user {username}:");
-            string password = Console.ReadLine();
-
         }
 
         static void MainDisplay()
