@@ -15,13 +15,18 @@ namespace Project0
         private static int CurrentAccNum = 1111111111;
 
         // METHODS ************************************************************
-        public static void AddUser(string username, string password)
+        public static bool AddUser(string username, string password)
         {
             if (UsernameAvailable(username))
             {
                 Users.Add(username, password);
+                return true;
             }
-            else Console.WriteLine("Error: username already in use.");
+            else
+            {
+                Console.WriteLine("Error: username already in use.");
+                return false;
+            }
         }
         public static bool CanDeposit(int accNum)
         {
@@ -58,13 +63,13 @@ namespace Project0
                 if (passwordAttempt.Equals(password)) return true;
                 else
                 {
-                    Console.WriteLine("Error: Incorrect password.");
+                    Console.WriteLine("\nError: Incorrect password.");
                     return false;
                 }
             }
             else
             {
-                Console.WriteLine("Error: No such username.");
+                Console.WriteLine("\nError: No such username.");
                 return false;
             }
         }
