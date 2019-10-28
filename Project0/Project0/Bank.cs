@@ -70,8 +70,35 @@ namespace Project0
 
         private static int GenerateAccNum()
         {
-            // TODO
             return CurrentAccNum++;
+        }
+
+        public static bool HasAccounts(string username)
+        {
+            List<int> accNums;
+            if (UserAccounts.TryGetValue(username, out accNums))
+            {
+                if (accNums.Count == 0) return false;
+                else return true;
+            }
+            else return false;
+        }
+
+        public static void ListAccountOptions(string username)
+        {
+            List<int> accNums;
+            if (UserAccounts.TryGetValue(username, out accNums))
+            {
+                foreach (int x in accNums)
+                {
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("");
+            }
+
         }
 
         public static bool LogIn(string username, string passwordAttempt)

@@ -22,6 +22,21 @@ namespace Project0
         }
 
         // METHODS ************************************************************
+        static void CloseAccount()
+        {
+            if (Bank.HasAccounts(CurrentUser))
+            {
+                Console.WriteLine("Which account would you like to close?");
+                Bank.ListAccountOptions(CurrentUser);
+
+            }
+            else
+            {
+                Console.WriteLine("\nThere are no accounts listed for this user.");
+                return;
+            }
+        }
+
         static void LoggedIn()
         {
             bool loggedIn = true;
@@ -38,6 +53,7 @@ namespace Project0
                         NewAccount();
                         break;
                     case "2":
+                        CloseAccount();
                         break;
                     case "3":
                         break;
@@ -51,6 +67,7 @@ namespace Project0
                         break;
                     case "8":
                         loggedIn = false;
+                        Console.WriteLine("\nLogout successful.");
                         break;
                     default:
                         break;
@@ -137,6 +154,7 @@ namespace Project0
                 if (amount > 0)
                 {
                     Bank.CreateAccount(CurrentUser, type, amount);
+                    Console.WriteLine("\nAccount created succesfully.");
                     return;
                 }
                 else
