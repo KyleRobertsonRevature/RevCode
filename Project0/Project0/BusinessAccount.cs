@@ -10,12 +10,13 @@ namespace Project0
     class BusinessAccount : Account
     {
         // CONSTRUCTOR ********************************************************
-        public BusinessAccount(int accNum, double rate)
+        public BusinessAccount(int accNum, double rate, double initialBlanace)
         {
             AccountNumber = accNum;
-            Balance = 0d;
+            Balance = initialBlanace;
             InterestRate = rate;
             AccountType = AccType.Business;
+            Transactions.Add($"Initial Balance: ${Balance}");
         }
 
         // METHODS ************************************************************

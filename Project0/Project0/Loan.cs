@@ -10,12 +10,13 @@ namespace Project0
     class Loan : Account
     {
         // CONSTRUCTOR ********************************************************
-        public Loan(int accNum, double rate)
+        public Loan(int accNum, double rate, double initialBalance)
         {
             AccountNumber = accNum;
-            Balance = 0d;
+            Balance = initialBalance;
             InterestRate = rate;
             AccountType = AccType.Loan;
+            Transactions.Add($"Initial Amount Owed: ${Balance}");
         }
 
         // METHODS ************************************************************
@@ -28,7 +29,7 @@ namespace Project0
             {
                 double charged = Balance * (InterestRate / 100d);
                 Balance += charged;
-                Transactions.Add($"Interest charged: ${charged}\nBalance = ${Balance}");
+                Transactions.Add($"Interest charged: ${charged}\nBalance Owed = ${Balance}");
             }
         }
 
@@ -50,7 +51,7 @@ namespace Project0
                 else
                 {
                     Balance = dif;
-                    Transactions.Add($"Payment made: ${amount}\nBalance = ${Balance}");
+                    Transactions.Add($"Payment made: ${amount}\nBalance Owed = ${Balance}");
                     return true;
                 }
             }

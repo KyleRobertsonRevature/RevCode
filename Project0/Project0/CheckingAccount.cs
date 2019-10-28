@@ -10,12 +10,13 @@ namespace Project0
     class CheckingAccount : Account
     {
         // CONSTRUCTOR ********************************************************
-        public CheckingAccount(int accNum, double rate)
+        public CheckingAccount(int accNum, double rate, double initialBalance)
         {
             AccountNumber = accNum;
-            Balance = 0d;
+            Balance = initialBalance;
             InterestRate = rate;
             AccountType = AccType.Checking;
+            Transactions.Add($"Initial Balance: ${Balance}");
         }
 
         // METHODS ************************************************************

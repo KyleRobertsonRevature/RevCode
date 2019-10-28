@@ -18,6 +18,7 @@ namespace Project0
                 running = MainDisplay();
             }
             while (running);
+            Console.WriteLine("\nEnding Program...");
         }
 
         // METHODS ************************************************************
@@ -28,13 +29,13 @@ namespace Project0
             {
                 Console.WriteLine($"\nWelcome, {CurrentUser}. What would you like to do?\n" +
                     $"< 1 > Open a new account\n< 2 > Close an account\n< 3 > Withdraw funds\n" +
-                    $"< 4 > Deposit funds\n< 5 > Transfar funds\n< 6 > Make a loan payment\n" +
-                    $"< 7 > Display all accounts\n< 8 > Display transactions for an account\n" +
-                    $"< 9 > Log out\n");
+                    $"< 4 > Deposit funds\n< 5 > Transfar funds\n< 6 > Display all accounts\n" +
+                    $"< 7 > Display transactions for an account\n< 8 > Log out\n");
                 string input = Console.ReadLine();
                 switch (input)
                 {
                     case "1":
+                        NewAccount();
                         break;
                     case "2":
                         break;
@@ -49,8 +50,6 @@ namespace Project0
                     case "7":
                         break;
                     case "8":
-                        break;
-                    case "9":
                         loggedIn = false;
                         break;
                     default:
@@ -86,25 +85,84 @@ namespace Project0
         static bool MainDisplay()
         {
             Console.WriteLine("\nWelcome! Please create a new account or log in an existing user.\n" +
-                "< 0 > End Program\n< 1 > Create New Account\n< 2 > Log In\n");
+                "< 0 > End Program\n< 1 > Create New User Account\n< 2 > Log In\n");
             string input = Console.ReadLine();
             switch (input)
             {
                 case "0":
                     return false;
                 case "1":
-                    NewAccount();
+                    NewUser();
                     return true;
                 case "2":
                     LogIn();
                     return true;
                 default:
-                    Console.WriteLine("\nError: Invalid input.\n");
+                    Console.WriteLine("\nError: Invalid input.");
                     return true;
             }
         }
 
         static void NewAccount()
+        {
+            Console.WriteLine("\nWhat type of account would you like to open?\n< 1 > Checking Account" +
+                "\n< 2 > Business Account\n< 3 > Loan\n< 4 > Term Deposit\n");
+            string input = Console.ReadLine();
+            AccType type;
+            switch (input)
+            {
+                case "1":
+                    type = AccType.Checking;
+                    Console.WriteLine("\nPlease enter the initial balance:\n");
+                    break;
+                case "2":
+                    type = AccType.Business;
+                    Console.WriteLine("\nPlease enter the initial balance:\n");
+                    break;
+                case "3":
+                    type = AccType.Loan;
+                    Console.WriteLine("\nPlease enter the loan amount:\n");
+                    break;
+                case "4":
+                    type = AccType.CD;
+                    Console.WriteLine("\nPlease enter the deposit amount:\n");
+                    break;
+                default:
+                    Console.WriteLine("\nError: Invalid input.");
+                    return;
+            }
+            try
+            {
+                double amount = Convert.ToDouble(Console.ReadLine());
+                if (amount > 0)
+                {
+                    Bank.CreateAccount(CurrentUser, type, amount);
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("\nError: Amount must be positive.");
+                    return;
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nError: Entry was not of a numeric type.");
+                return;
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("\nError: Entered amount was too large.");
+                return;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+        }
+
+        static void NewUser()
         {
             Console.WriteLine("\nWelcome, new user! To create an account, please enter a username:");
             string username = Console.ReadLine();

@@ -11,15 +11,21 @@ namespace Project0
     {
         // PROPERTIES *********************************************************
         private static Dictionary<int, Account> Accounts = new Dictionary<int, Account>();
-        private static Dictionary<string, string> Users = new Dictionary<string, string>();
+        private static Dictionary<string, List<int>> UserAccounts = new Dictionary<string, List<int>>();
+        private static Dictionary<string, string> UserLogins = new Dictionary<string, string>();
         private static int CurrentAccNum = 1111111111;
+        private static double CheckingRate = 2.13;
+        private static double BusinessRate = 13.13;
+        private static double LoanRate = 31.13;
+        private static double CDRate = 4.02;
 
         // METHODS ************************************************************
         public static bool AddUser(string username, string password)
         {
             if (UsernameAvailable(username))
             {
-                Users.Add(username, password);
+                UserLogins.Add(username, password);
+                UserAccounts.Add(username, new List<int>());
                 return true;
             }
             else
@@ -45,9 +51,21 @@ namespace Project0
             // TODO
         }
 
-        public static void CreateAccount(AccType type, double initialAmount)
+        public static void CreateAccount(string user, AccType type, double initialAmount)
         {
-
+            List<int> userAccs;
+            int accNum = GenerateAccNum();
+            Account newAcc = type switch
+            {
+                AccType.Checking => new CheckingAccount(accNum, CheckingRate, initialAmount),
+                AccType.Business => new BusinessAccount(accNum, BusinessRate, initialAmount),
+                AccType.Loan => new Loan(accNum, LoanRate, initialAmount),
+                AccType.CD => new CD(accNum, CDRate, initialAmount),
+                _ => null
+            };
+            Accounts.Add(accNum, newAcc);
+            UserAccounts.TryGetValue(user, out userAccs);
+            userAccs.Add(accNum);
         }
 
         private static int GenerateAccNum()
@@ -58,7 +76,7 @@ namespace Project0
 
         public static bool LogIn(string username, string passwordAttempt)
         {
-            if (Users.TryGetValue(username, out string password))
+            if (UserLogins.TryGetValue(username, out string password))
             {
                 if (passwordAttempt.Equals(password)) return true;
                 else
@@ -81,7 +99,7 @@ namespace Project0
         /// <returns>Whether the username is available as a bool</returns>
         public static bool UsernameAvailable(string username)
         {
-            return !(Users.ContainsKey(username));
+            return !(UserLogins.ContainsKey(username));
         }
     }
 }

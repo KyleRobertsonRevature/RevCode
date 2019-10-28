@@ -16,13 +16,14 @@ namespace Project0
         public bool IsMature;
 
         // CONSTRUCTOR ********************************************************
-        public CD(int accNum, double rate)
+        public CD(int accNum, double rate, double initialBalance)
         {
             AccountNumber = accNum;
-            Balance = 0d;
+            Balance = initialBalance;
             InterestRate = rate;
             AccountType = AccType.CD;
             IsMature = false;
+            Transactions.Add($"Initial Balance: ${Balance}");
         }
 
         // METHODS ************************************************************
