@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Project0
 {
@@ -19,7 +18,7 @@ namespace Project0
         /// <summary>
         /// Amount of money in the account.
         /// </summary>
-        protected double Balance { get; set; }
+        public double Balance { get; set; }
 
         /// <summary>
         /// Interest rate on the account.
@@ -67,7 +66,6 @@ namespace Project0
                 Console.WriteLine(transaction);
             }
         }
-
 
         /// <summary>
         /// When implemented, should withdraw the desired amount from the account, if allowed.

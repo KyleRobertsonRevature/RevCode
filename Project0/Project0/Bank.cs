@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,22 +11,41 @@ namespace Project0
     public static class Bank
     {
         // PROPERTIES *********************************************************
-        private static Dictionary<int, Account> Accounts = new Dictionary<int, Account>();
-        private static Dictionary<string, List<int>> UserAccounts = new Dictionary<string, List<int>>();
-        private static Dictionary<string, string> UserLogins = new Dictionary<string, string>();
+        private static readonly Dictionary<int, Account> Accounts = new Dictionary<int, Account>();
+        private static readonly Dictionary<string, ArrayList> UserAccounts = new Dictionary<string, ArrayList>();
+        private static readonly Dictionary<string, string> UserLogins = new Dictionary<string, string>();
         private static int CurrentAccNum = 1111111111;
-        private static double CheckingRate = 2.13;
-        private static double BusinessRate = 13.13;
-        private static double LoanRate = 31.13;
-        private static double CDRate = 4.02;
+        private static readonly double CheckingRate = 1.02;
+        private static readonly double BusinessRate = 13.13;
+        private static readonly double LoanRate = 31.13;
+        private static readonly double CDRate = 2.12;
 
         // METHODS ************************************************************
+
+        /*
+         * if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[index], out Account account))
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+         */
+
         public static bool AddUser(string username, string password)
         {
             if (UsernameAvailable(username))
             {
                 UserLogins.Add(username, password);
-                UserAccounts.Add(username, new List<int>());
+                UserAccounts.Add(username, new ArrayList());
                 return true;
             }
             else
@@ -34,16 +54,63 @@ namespace Project0
                 return false;
             }
         }
-        public static bool CanDeposit(int accNum)
+
+        public static bool CanDeposit(string username, int index)
         {
-            // TODO
-            return false;
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[index], out Account account))
+                {
+                    AccType type = account.AccountType;
+                    return type switch
+                    {
+                        AccType.Checking => true,
+                        AccType.Business => true,
+                        AccType.Loan => true,
+                        AccType.CD => false,
+                        _ => false,
+                    };
+                }
+                else
+                {
+                    Console.WriteLine($"\nError: Account not found.");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nError: Accounts not found for user {username}.");
+                return false;
+            }
         }
 
-        public static bool CanWithdraw(int accNum)
+        public static bool CanWithdraw(string username, int index)
         {
-            // TODO
-            return false;
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[index], out Account account))
+                {
+                    AccType type = account.AccountType;
+                    return type switch
+                    {
+                        AccType.Checking => true,
+                        AccType.Business => true,
+                        AccType.Loan => false,
+                        AccType.CD => ((CD)account).IsMature,
+                        _ => false
+                    };
+                }
+                else
+                {
+                    Console.WriteLine($"\nError: Account not found.");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nError: Accounts not found for user {username}.");
+                return false;
+            }
         }
 
         public static void ChargeInterest()
@@ -51,9 +118,31 @@ namespace Project0
             // TODO
         }
 
+        public static void CloseAccount(string username, int index)
+        {
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[index], out _))
+                {
+                    Accounts.Remove((int)accNums[index]);
+                    accNums.RemoveAt(index);
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine($"\nError: Account not found.");
+                    return;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nError: Accounts not found for user {username}.");
+                return;
+            }
+        }
+
         public static void CreateAccount(string user, AccType type, double initialAmount)
         {
-            List<int> userAccs;
             int accNum = GenerateAccNum();
             Account newAcc = type switch
             {
@@ -64,7 +153,7 @@ namespace Project0
                 _ => null
             };
             Accounts.Add(accNum, newAcc);
-            UserAccounts.TryGetValue(user, out userAccs);
+            UserAccounts.TryGetValue(user, out ArrayList userAccs);
             userAccs.Add(accNum);
         }
 
@@ -75,8 +164,7 @@ namespace Project0
 
         public static bool HasAccounts(string username)
         {
-            List<int> accNums;
-            if (UserAccounts.TryGetValue(username, out accNums))
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
             {
                 if (accNums.Count == 0) return false;
                 else return true;
@@ -84,21 +172,38 @@ namespace Project0
             else return false;
         }
 
-        public static void ListAccountOptions(string username)
+        public static int ListAccountOptions(string username)
         {
-            List<int> accNums;
-            if (UserAccounts.TryGetValue(username, out accNums))
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
             {
-                foreach (int x in accNums)
+                for (int i = 0; i < accNums.Count; i++)
                 {
-
+                    if (Accounts.TryGetValue((int)accNums[i], out Account account))
+                    {
+                        Console.Write("< " + (i + 1) + " > ");
+                        string typeString = account.AccountType switch
+                        {
+                            AccType.Checking => "Checking",
+                            AccType.Business => "Business",
+                            AccType.Loan => "Loan",
+                            AccType.CD => "Term Deposit",
+                            _ => "Undefined"
+                        };
+                        Console.WriteLine(typeString + " Account #" + accNums[i]);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\nError: Account referenced at index {i} in UserAccounts was not found in Accounts.");
+                        return 0;
+                    }
                 }
+                return accNums.Count;
             }
             else
             {
-                Console.WriteLine("");
+                Console.WriteLine($"\nError: Accounts not found for user {username}.");
+                return 0;
             }
-
         }
 
         public static bool LogIn(string username, string passwordAttempt)
@@ -127,6 +232,27 @@ namespace Project0
         public static bool UsernameAvailable(string username)
         {
             return !(UserLogins.ContainsKey(username));
+        }
+
+        public static bool Withdraw(string username, int index, double amount)
+        {
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[index], out Account account))
+                {
+                    return account.Withdraw(amount);
+                }
+                else
+                {
+                    Console.WriteLine($"\nError: Account not found.");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nError: Accounts not found for user {username}.");
+                return false;
+            }
         }
     }
 }

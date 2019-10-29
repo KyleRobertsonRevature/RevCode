@@ -7,9 +7,8 @@ namespace Project0
         // PROPERTIES *********************************************************
         static string CurrentUser { get; set; }
 
-
         // MAIN ***************************************************************
-        static void Main(string[] args)
+        static void Main()
         {
             // loop back to login page until program terminated
             bool running;
@@ -26,15 +25,47 @@ namespace Project0
         {
             if (Bank.HasAccounts(CurrentUser))
             {
-                Console.WriteLine("Which account would you like to close?");
-                Bank.ListAccountOptions(CurrentUser);
-
+                Console.WriteLine("\nWhich account would you like to close?");
+                int numAccounts = Bank.ListAccountOptions(CurrentUser);
+                try
+                {
+                    int input = Convert.ToInt32(Console.ReadLine());
+                    if (input > 0 && input <= numAccounts)
+                    {
+                        Bank.CloseAccount(CurrentUser, (input - 1));
+                        Console.WriteLine("\nAccount closed successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nError: Invalid input.");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nError: invalid input format.");
+                    return;
+                }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("\nError: Amount entered was too large.");
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\n" + ex.Message);
+                    return;
+                }
             }
             else
             {
                 Console.WriteLine("\nThere are no accounts listed for this user.");
                 return;
             }
+        }
+
+        static void Deposit()
+        {
+
         }
 
         static void LoggedIn()
@@ -56,8 +87,10 @@ namespace Project0
                         CloseAccount();
                         break;
                     case "3":
+                        Withdraw();
                         break;
                     case "4":
+                        Deposit();
                         break;
                     case "5":
                         break;
@@ -70,6 +103,7 @@ namespace Project0
                         Console.WriteLine("\nLogout successful.");
                         break;
                     default:
+                        Console.WriteLine("\nError: Invalid input.");
                         break;
                 }
             }
@@ -224,6 +258,66 @@ namespace Project0
                 Console.WriteLine("\nError: Username already in use.");
                 return;
             }
+        }
+
+        static void Withdraw()
+        {
+            if (Bank.HasAccounts(CurrentUser))
+            {
+                Console.WriteLine("\nWhich account would you like to withdraw from?");
+                int numAccounts = Bank.ListAccountOptions(CurrentUser);
+                Console.WriteLine();
+                try
+                {
+                    int input = Convert.ToInt32(Console.ReadLine());
+                    if (input > 0 && input <= numAccounts)
+                    {
+                        if (Bank.CanWithdraw(CurrentUser, input - 1))
+                        {
+                            Console.WriteLine("\nHow much would you like to withdraw?");
+                            try
+                            {
+                                double amount = Convert.ToDouble(Console.ReadLine());
+                                if (amount > 0)
+                                {
+                                    if (Bank.Withdraw(CurrentUser, input - 1, amount))
+                                    {
+                                        Console.WriteLine("\nWithdrawl completed successfully.");
+                                    }
+                                }
+                                else Console.WriteLine("\nError: Amount must be positive.");
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("\nError: Invalid input format.");
+                            }
+                            catch (OverflowException)
+                            {
+                                Console.WriteLine("\nError: Input was too large.");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                        else Console.WriteLine("\nError: cannot withdraw from this account.");
+                    }
+                    else Console.WriteLine("\nError: Invalid input.");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nError: Invalid input format.");
+                }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("\nError: Input was too large.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\n" + ex.Message);
+                }
+            }
+            else Console.WriteLine("\nError: There are no accounts listed for this user.");
         }
     }
 }

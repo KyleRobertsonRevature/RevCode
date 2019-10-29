@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Project0
 {
@@ -56,9 +54,7 @@ namespace Project0
         /// </summary>
         public override void DisplayDetails()
         {
-            string matureString;
-            if (IsMature) matureString = "";
-            else matureString = "not ";
+            string matureString = IsMature ? "": "not ";
             Console.WriteLine($"Term Deposit #{AccountNumber} is {matureString}mature, has a balance of ${Balance}, and an interest rate of {InterestRate}%.");
         }
 
@@ -98,15 +94,5 @@ namespace Project0
                 return false;
             }
         }
-
-        /// <summary>
-        /// Closes the account before maturity, returning the balance.
-        /// </summary>
-        /// <returns>The current balance in the account.</returns>
-        public double CloseAccount()
-        {
-            return Balance;
-        }
-
     }
 }
