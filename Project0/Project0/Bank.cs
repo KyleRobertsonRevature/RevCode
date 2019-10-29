@@ -157,6 +157,27 @@ namespace Project0
             userAccs.Add(accNum);
         }
 
+        public static bool Deposit(string username, int index, double amount)
+        {
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[index], out Account account))
+                {
+                    return account.Deposit(amount);
+                }
+                else
+                {
+                    Console.WriteLine($"\nError: Account not found.");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nError: Accounts not found for user {username}.");
+                return false;
+            }
+        }
+
         private static int GenerateAccNum()
         {
             return CurrentAccNum++;

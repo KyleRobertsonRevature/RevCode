@@ -65,7 +65,62 @@ namespace Project0
 
         static void Deposit()
         {
-
+            if (Bank.HasAccounts(CurrentUser))
+            {
+                Console.WriteLine("\nWhich account would you like to deposit to?");
+                int numAccounts = Bank.ListAccountOptions(CurrentUser);
+                Console.WriteLine();
+                try
+                {
+                    int input = Convert.ToInt32(Console.ReadLine());
+                    if (input > 0 && input <= numAccounts)
+                    {
+                        if (Bank.CanDeposit(CurrentUser, input - 1))
+                        {
+                            Console.WriteLine("\nHow much would you like to deposit?");
+                            try
+                            {
+                                double amount = Convert.ToDouble(Console.ReadLine());
+                                if (amount > 0)
+                                {
+                                    if (Bank.Deposit(CurrentUser, input - 1, amount))
+                                    {
+                                        Console.WriteLine("\nDeposit completed successfully.");
+                                    }
+                                }
+                                else Console.WriteLine("\nError: Amount must be positive.");
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("\nError: Invalid input format.");
+                            }
+                            catch (OverflowException)
+                            {
+                                Console.WriteLine("\nError: Input was too large.");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                        else Console.WriteLine("\nError: cannot deposit to this account.");
+                    }
+                    else Console.WriteLine("\nError: Invalid input.");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nError: Invalid input format.");
+                }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("\nError: Input was too large.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\n" + ex.Message);
+                }
+            }
+            else Console.WriteLine("\nThere are no accounts listed for this user.");
         }
 
         static void LoggedIn()
@@ -317,7 +372,7 @@ namespace Project0
                     Console.WriteLine("\n" + ex.Message);
                 }
             }
-            else Console.WriteLine("\nError: There are no accounts listed for this user.");
+            else Console.WriteLine("\nThere are no accounts listed for this user.");
         }
     }
 }
