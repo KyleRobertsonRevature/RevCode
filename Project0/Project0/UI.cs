@@ -78,32 +78,60 @@ namespace Project0
                         if (Bank.CanDeposit(CurrentUser, input - 1))
                         {
                             Console.WriteLine("\nHow much would you like to deposit?");
-                            try
+                            double amount = Convert.ToDouble(Console.ReadLine());
+                            if (amount > 0)
                             {
-                                double amount = Convert.ToDouble(Console.ReadLine());
-                                if (amount > 0)
+                                if (Bank.Deposit(CurrentUser, input - 1, amount))
                                 {
-                                    if (Bank.Deposit(CurrentUser, input - 1, amount))
-                                    {
-                                        Console.WriteLine("\nDeposit completed successfully.");
-                                    }
+                                    Console.WriteLine("\nDeposit completed successfully.");
                                 }
-                                else Console.WriteLine("\nError: Amount must be positive.");
                             }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("\nError: Invalid input format.");
-                            }
-                            catch (OverflowException)
-                            {
-                                Console.WriteLine("\nError: Input was too large.");
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
+                            else Console.WriteLine("\nError: Amount must be positive.");
                         }
                         else Console.WriteLine("\nError: cannot deposit to this account.");
+                    }
+                    else Console.WriteLine("\nError: Invalid input.");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nError: Invalid input format.");
+                }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("\nError: Input was too large.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\n" + ex.Message);
+                }
+            }
+            else Console.WriteLine("\nThere are no accounts listed for this user.");
+        }
+
+        static void DisplayAccounts()
+        {
+            if (Bank.HasAccounts(CurrentUser))
+            {
+                Console.WriteLine();
+                Bank.DisplayAccountDetails(CurrentUser);
+            }
+            else Console.WriteLine("\nThere are no accounts listed for this user.");
+        }
+
+        static void DisplayTransactions()
+        {
+            if (Bank.HasAccounts(CurrentUser))
+            {
+                Console.WriteLine("\nWhich account would you like to see transactions for?");
+                int numAccounts = Bank.ListAccountOptions(CurrentUser);
+                Console.WriteLine();
+                try
+                {
+                    int input = Convert.ToInt32(Console.ReadLine());
+                    if (input > 0 && input <= numAccounts)
+                    {
+                        Console.WriteLine();
+                        Bank.DisplayTransactions(CurrentUser, input - 1);
                     }
                     else Console.WriteLine("\nError: Invalid input.");
                 }
@@ -148,10 +176,13 @@ namespace Project0
                         Deposit();
                         break;
                     case "5":
+                        Transfer();
                         break;
                     case "6":
+                        DisplayAccounts();
                         break;
                     case "7":
+                        DisplayTransactions();
                         break;
                     case "8":
                         loggedIn = false;
@@ -315,6 +346,67 @@ namespace Project0
             }
         }
 
+        static void Transfer()
+        {
+            if (Bank.HasAccounts(CurrentUser))
+            {
+                Console.WriteLine("\nWhich account would you like to transfer from?");
+                int numAccounts = Bank.ListAccountOptions(CurrentUser);
+                Console.WriteLine();
+                try
+                {
+                    int firstInput = Convert.ToInt32(Console.ReadLine());
+                    if (firstInput > 0 && firstInput <= numAccounts)
+                    {
+                        if (Bank.CanWithdraw(CurrentUser, firstInput - 1))
+                        {
+                            Console.WriteLine("\nWhich account would you like to transfer to?");
+                            Bank.ListAccountOptions(CurrentUser);
+                            Console.WriteLine();
+                            int secondInput = Convert.ToInt32(Console.ReadLine());
+                            if (secondInput > 0 && secondInput <= numAccounts)
+                            {
+                                if (firstInput == secondInput)
+                                {
+                                    Console.WriteLine("\nError: Transfer source and destination accounts must be different.");
+                                }
+                                else if (Bank.CanDeposit(CurrentUser, secondInput - 1))
+                                {
+                                    Console.WriteLine("\nHow much money do you want to transfer?");
+                                    double amount = Convert.ToDouble(Console.ReadLine());
+                                    if (amount > 0)
+                                    {
+                                        if (Bank.Transfer(CurrentUser, firstInput - 1, secondInput - 1, amount))
+                                        {
+                                            Console.WriteLine("\nTransfer completed successfully.");
+                                        }
+                                    }
+                                    else Console.WriteLine("\nError: Amount must be positive.");
+                                }
+                                else Console.WriteLine("\nError: Cannot deposit to this account.");
+                            }
+                            else Console.WriteLine("\nError: Invalid input.");
+                        }
+                        else Console.WriteLine("\nError: Cannot withdraw from this account.");
+                    }
+                    else Console.WriteLine("\nError: Invalid input.");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nError: Invalid input format.");
+                }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("\nError: Input was too large.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\n" + ex.Message);
+                }
+            }
+            else Console.WriteLine("\nThere are no accounts listed for this user.");
+        }
+
         static void Withdraw()
         {
             if (Bank.HasAccounts(CurrentUser))
@@ -330,30 +422,15 @@ namespace Project0
                         if (Bank.CanWithdraw(CurrentUser, input - 1))
                         {
                             Console.WriteLine("\nHow much would you like to withdraw?");
-                            try
+                            double amount = Convert.ToDouble(Console.ReadLine());
+                            if (amount > 0)
                             {
-                                double amount = Convert.ToDouble(Console.ReadLine());
-                                if (amount > 0)
+                                if (Bank.Withdraw(CurrentUser, input - 1, amount))
                                 {
-                                    if (Bank.Withdraw(CurrentUser, input - 1, amount))
-                                    {
-                                        Console.WriteLine("\nWithdrawl completed successfully.");
-                                    }
+                                    Console.WriteLine("\nWithdrawl completed successfully.");
                                 }
-                                else Console.WriteLine("\nError: Amount must be positive.");
                             }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("\nError: Invalid input format.");
-                            }
-                            catch (OverflowException)
-                            {
-                                Console.WriteLine("\nError: Input was too large.");
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
+                            else Console.WriteLine("\nError: Amount must be positive.");
                         }
                         else Console.WriteLine("\nError: cannot withdraw from this account.");
                     }

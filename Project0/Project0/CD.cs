@@ -55,7 +55,7 @@ namespace Project0
         public override void DisplayDetails()
         {
             string matureString = IsMature ? "": "not ";
-            Console.WriteLine($"Term Deposit #{AccountNumber} is {matureString}mature, has a balance of ${Balance}, and an interest rate of {InterestRate}%.");
+            Console.WriteLine($"Term Deposit #{AccountNumber} is {matureString}mature, has a balance of ${Balance}, and has an interest rate of {InterestRate}%.");
         }
 
         /// <summary>

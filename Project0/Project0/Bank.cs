@@ -21,25 +21,6 @@ namespace Project0
         private static readonly double CDRate = 2.12;
 
         // METHODS ************************************************************
-
-        /*
-         * if (UserAccounts.TryGetValue(username, out ArrayList accNums))
-            {
-                if (Accounts.TryGetValue((int)accNums[index], out Account account))
-                {
-
-                }
-                else
-                {
-
-                }
-            }
-            else
-            {
-
-            }
-         */
-
         public static bool AddUser(string username, string password)
         {
             if (UsernameAvailable(username))
@@ -178,6 +159,43 @@ namespace Project0
             }
         }
 
+        public static void DisplayAccountDetails(string username)
+        {
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                for (int i = 0; i < accNums.Count; i++)
+                {
+                    if (Accounts.TryGetValue((int)accNums[i], out Account account))
+                    {
+                        account.DisplayDetails();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\nError: Account not found at index {i}");
+                        return;
+                    }
+                }
+            }
+            else Console.WriteLine($"\nError: Accounts not found for user {username}");
+        }
+
+        public static void DisplayTransactions(string username, int index)
+        {
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[index], out Account account))
+                {
+                    account.DisplayTransactions();
+                }
+                else
+                {
+                    Console.WriteLine($"\nError: Account not found at index {index}");
+                    return;
+                }
+            }
+            else Console.WriteLine($"\nError: Accounts not found for user {username}");
+        }
+
         private static int GenerateAccNum()
         {
             return CurrentAccNum++;
@@ -241,6 +259,50 @@ namespace Project0
             else
             {
                 Console.WriteLine("\nError: No such username.");
+                return false;
+            }
+        }
+
+        public static bool Transfer(string username, int fromIndex, int toIndex, double amount)
+        {
+            if (UserAccounts.TryGetValue(username, out ArrayList accNums))
+            {
+                if (Accounts.TryGetValue((int)accNums[fromIndex], out Account fromAccount))
+                {
+                    if (Accounts.TryGetValue((int)accNums[toIndex], out Account toAccount))
+                    {
+                        if (fromAccount.AccountType != AccType.Business && fromAccount.Balance < amount)
+                        {
+                            Console.WriteLine("\nError: Insufficient balance in source account to complete transfer.");
+                            return false;
+                        }
+                        else if (toAccount.AccountType == AccType.Loan && toAccount.Balance < amount)
+                        {
+                            Console.WriteLine("\nError: Balance owed on loan is less than specified transfer amount.");
+                            return false;
+                        }
+                        if (fromAccount.Withdraw(amount) && toAccount.Deposit(amount)) return true;
+                        else
+                        {
+                            Console.WriteLine("\nError during transaction, inconsistencies may be present.");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nError: Transfar destination account not found.");
+                        return false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nError: Transfer source account not found.");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"\nError: Accounts not found for user {username}");
                 return false;
             }
         }
